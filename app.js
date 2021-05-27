@@ -1,23 +1,25 @@
 const os = require('os')
 const path = require('path')
+const serve = require('serve-index')
 const fs = require('fs')
-var home = os.homedir()
 var alert = require('alert')
+var home = os.homedir()
 var http = require('http')
-const app = require('express')()
+const express = require('express')
+var app = express()
+var port = process.env.PORT || 8080
 
-app.use(require('express').static('public'))
-app.listen(process.env.PORT||8080)
+app.use('/ftp', serve('public/', {'icons': true}))
+app.get('/', function (request, response) {
+    alert('this is test of message box')
+    response.send('this is the file page')
+});
+app.listen(port)
+// app.use(require('express').static('public'), (req, res) => {
+//     let alert = require('alert');  
+//     alert("message")
+// })
+// app.listen(port)
 
-// http.createServer(function (req, res) {
-//     if (req.method=='GET' && req.url == '/') {
-//         res.writeHead(200, {'Content-Type': 'text/plain'});
-//         var deskpath = path.join(home, 'Desktop', 'downloaded')
-//         alert('directory create')
-//         fs.mkdirSync(deskpath)
-//         res.write('Hello new app')
-//         res.end();
-//     }
 
-//   }).listen(8080);
 
