@@ -1,21 +1,28 @@
 const os = require('os')
 const path = require('path')
 const serve = require('serve-index')
-const fs = require('fs')
+var fs = require('fs-extra')
 var alert = require('alert')
 var home = os.homedir()
 var http = require('http')
 const express = require('express')
+const extra = require('')
 var app = express()
 var port = process.env.PORT || 8080
 
 
-app.use('/ftp', serve('public/', {'icons': true}))
+app.use('/ftp', serve('public/', { 'icons': true }))
+
 app.get('/', function (request, response) {
-    alert('this is test of message box')
-    fs.mkdirSync('public/test')
+    
+    fs.emptyDirSync('public/test')
     response.send('this is the file page')
 });
+
+app.get('/ftp', function (request, response) {
+
+});
+
 
 
 app.listen(port)
